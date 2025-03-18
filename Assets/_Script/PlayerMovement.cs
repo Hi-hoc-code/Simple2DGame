@@ -12,8 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private Rigidbody2D rb;
     private Animator animator;
+    private GameManager gameManager;
     private void Awake()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameManager.IsGameOver()) return;
         HandleMovement();
         HandleJump();
         UpdateAnimation();
