@@ -9,12 +9,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
 
+    private AudioManager audio;
     private bool isGrounded;
     private Rigidbody2D rb;
     private Animator animator;
     private GameManager gameManager;
     private void Awake()
     {
+        audio = FindAnyObjectByType<AudioManager>();
         gameManager = FindAnyObjectByType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.IsGameOver()) return;
+        if (gameManager.IsGameOver() || gameManager.IsgameWin()) return;
         HandleMovement();
         HandleJump();
         UpdateAnimation();
@@ -46,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump")&& isGrounded) 
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            audio.PlayJumpSound();
         }
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }

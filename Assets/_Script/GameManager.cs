@@ -8,22 +8,20 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject gameWinUI;
+    private bool isGameWinUI;
     private bool isGameOverUI;
     void Start()
     {
         UpdateScore();
         gameOverUI.SetActive(false);
+        gameWinUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
 
     public void AddScore(int point)
     {
-        if (!isGameOverUI)
+        if (!isGameOverUI && !isGameWinUI)
         {
         score += point;
         UpdateScore();
@@ -40,6 +38,12 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         gameOverUI.SetActive(true);
     }
+    public void GameWin()
+    {
+        isGameWinUI = true;
+        Time.timeScale = 0;
+        gameWinUI.SetActive(true);
+    }
     public void RestartGame()
     {
         isGameOverUI = false;
@@ -51,5 +55,13 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver()
     {
         return isGameOverUI;
+    }
+    public bool IsgameWin()
+    {
+        return isGameWinUI;
+    } 
+    public void GameMenuLoad()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
