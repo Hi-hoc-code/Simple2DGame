@@ -8,6 +8,7 @@ public class MovingPLatform : MonoBehaviour
     [SerializeField] private Transform pointB;
     [SerializeField] private float speed = 2f;
     private Vector3  target;
+    private Transform Player;
     void Start()
     {
         target = pointA.position;
@@ -27,6 +28,20 @@ public class MovingPLatform : MonoBehaviour
             {
                 target = pointA.position;
             }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(transform);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(null);
         }
     }
 }
